@@ -6,23 +6,9 @@ import einops
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-import torchvision
 from einops.layers.torch import Rearrange
-from typing import Optional
 import timm
-from timm.models.vision_transformer import (
-    Attention,
-    Mlp,
-    LayerScale,
-    DropPath,
-)
 
-
-"""
-"Our video models have nt times more tokens than the pretrained image model.
-As a result, we initialise the positional embeddings by “repeating” them
-temporally from Rnw ·nh ×d to Rnt·nh·nw ×d . Therefore, at initialisation, all tokens with the same spatial index have the same embedding which is then fine-tuned.
-"""
 
 class TubletEmbedding(nn.Module):
     """
@@ -123,8 +109,8 @@ class ViViTBase(nn.Module):
         img_size,
         tempo_patch_size,
         spat_patch_size,
-        pooling_mode="cls",
-        num_classes=100,
+        num_classes,
+        pooling_mode,
     ):
         super().__init__()
 
@@ -179,6 +165,9 @@ class SpatTempoAttnViViT(ViViTBase):
     "Each transformer layer models all pairwise interactions between all
     spatio-temporal tokens, and it thus models long-range interactions
     across the video from the first layer."
+    "Our video models have nt times more tokens than the pretrained image model.
+    As a result, we initialise the positional embeddings by “repeating” them
+    temporally from Rnw ·nh ×d to Rnt·nh·nw ×d . Therefore, at initialisation, all tokens with the same spatial index have the same embedding which is then fine-tuned.
     """
     def __init__(
         self,
@@ -187,8 +176,8 @@ class SpatTempoAttnViViT(ViViTBase):
         img_size,
         tempo_patch_size,
         spat_patch_size,
+        num_classes,
         pooling_mode="cls",
-        num_classes=100,
     ):
         super().__init__(
             vit=vit,
@@ -240,8 +229,8 @@ class FactorEncViViT(ViViTBase):
         img_size,
         tempo_patch_size,
         spat_patch_size,
+        num_classes,
         pooling_mode="cls",
-        num_classes=100,
     ):
         super().__init__(
             vit=vit,
@@ -328,8 +317,8 @@ class FactorSelfAttnViViT(ViViTBase):
         img_size,
         tempo_patch_size,
         spat_patch_size,
+        num_classes,
         pooling_mode="cls",
-        num_classes=100,
     ):
         super().__init__(
             vit=vit,
