@@ -3,9 +3,9 @@
 # 1. How to Use
 ```python
 from vivit import (
-    SpatTempoAttnViViT, # 'Model 1: Spatio-temporal attention'
-    FactorEncViViT, # 'Model 2: Factorised encoder'
-    FactorSelfAttnViViT, # 'Model 3: Factorised self-attention'
+    SpatTempoAttnViViT, # Model 1: 'Spatio-temporal attention'
+    FactorEncViViT, # Model 2: 'Factorised encoder'
+    FactorSelfAttnViViT, # Model 3: 'Factorised self-attention'
 )
 
 # e.g.,
